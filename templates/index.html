@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lee Hardware supplies tools, building materials, paint, and blocks in Sandy Bay, Hanover, Jamaica.">
+  <title>Lee Hardware | Hardware & Building Supplies</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='storefront.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-mark">L</span><span>Lee <span class="brand-accent">Hardware</span><small>HARDWARE & BUILDING SUPPLIES</small></span></a>
+  <nav><a href="#categories">Departments</a><a href="#products">Shop products</a><a href="#delivery">Delivery</a><a href="#contact">Contact</a></nav>
+  <button class="cart-button" id="cartOpen">Cart <span id="cartCount">0</span></button>
+</header>
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow"><span></span> YOUR PROJECT. OUR MATERIALS.</div>
+      <h1>Build strong.<br><em>Build smarter.</em></h1>
+      <p>Dependable tools and building materials for every project, from the first foundation to the final finish.</p>
+      <div class="hero-actions"><a class="btn primary" href="#products">Shop materials <span>↗</span></a><a class="btn secondary" href="#quote">Order on WhatsApp</a></div>
+      <div class="hero-points"><span>✓ Bulk order enquiries</span><span>✓ Project-ready supplies</span><span>✓ Quote before you buy</span></div>
+    </div>
+    <div class="hero-art storefront-photo"><img src="{{ url_for('static', filename='lee-hardware-storefront.jpeg') }}" alt="Lee Hardware storefront in Sandy Bay, Hanover"></div>
+  </section>
+  <section class="trust-strip"><div><b>{{ categories|length }}</b><span>Dedicated departments</span></div><div><b>Bulk</b><span>Material enquiries welcome</span></div><div><b>Clear</b><span>Quote-first ordering</span></div><div><b>Local</b><span>Delivery can be arranged</span></div></section>
+
+  <section class="section" id="categories">
+    <div class="section-head"><div><div class="eyebrow">SHOP BY DEPARTMENT</div><h2>Everything has its place.</h2></div><p>Browse each category to find the supplies you need for your next job.</p></div>
+    <div class="category-grid">
+      {% for category in categories %}
+      <a class="category-card" href="#products" data-category-link="{{ category.slug }}">
+        <span class="category-icon">{{ category.icon }}</span><span class="category-name">{{ category.name }}</span><span class="category-desc">{{ category.description }}</span><span class="card-arrow">↗</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="product-section" id="products">
+    <div class="section-head"><div><div class="eyebrow">THE SUPPLY YARD</div><h2>Featured tools & materials.</h2></div><p>Sample catalogue and prices. Confirm current stock, specifications, and delivery charges before purchase.</p></div>
+    <div class="shop-controls"><label class="searchbox">⌕ <input id="searchInput" placeholder="Search cement, steel, lumber..." aria-label="Search products"></label>
+      <select id="categoryFilter" aria-label="Filter by department"><option value="all">All departments</option>{% for category in categories %}<option value="{{ category.slug }}">{{ category.name }}</option>{% endfor %}</select>
+    </div>
+    <div class="product-grid" id="productGrid">
+      {% for p in products %}
+      <article class="product-card" data-id="{{ p.id }}" data-name="{{ p.name|lower }}" data-category="{{ p.category }}">
+        <div class="product-visual visual-{{ p.category }}"><span class="product-tag">{{ p.tag }}</span><span class="product-symbol">{% if p.category == 'tools' %}⚒{% elif p.category == 'sand' %}⛰{% elif p.category == 'stone' %}⬡{% elif p.category == 'cement' %}▤{% elif p.category == 'steel' %}〰{% elif p.category == 'binding-wire' %}⌁{% elif p.category == 'quarter-wire' %}◌{% elif p.category == 'paint' %}◒{% elif p.category == 'blocks' %}▦{% elif p.category == 'plumbing' %}🚰{% else %}▰{% endif %}</span><span class="visual-caption">{{ p.category.replace('-', ' ')|upper }}</span></div>
+        <div class="product-info"><div class="product-category">{{ p.category.replace('-', ' ') }}</div><h3>{{ p.name }}</h3><p>{{ p.description }}</p><div class="product-bottom"><div><strong>J${{ "{:,.0f}".format(p.price) }}</strong><small>{{ p.unit }}</small></div><button class="add-btn" data-add="{{ p.id }}" aria-label="Add {{ p.name }} to cart">+</button></div></div>
+      </article>
+      {% endfor %}
+      <div class="no-results" id="noResults" hidden>No products match your search. Try another term or department.</div>
+    </div>
+  </section>
+
+  <section class="bulk-banner" id="delivery"><div class="bulk-icon">▦</div><div><div class="eyebrow">BUILDING AT SCALE?</div><h2>Big project. Bigger order?</h2><p>Tell us what you need, quantities, delivery location, and preferred date. We’ll prepare a quote for your project.</p></div><a class="btn light" href="#quote">Get a bulk quote ↗</a></section>
+
+  <section class="quote-section" id="quote">
+    <div class="quote-intro"><div class="eyebrow">LET'S GET BUILDING</div><h2>Tell us what your project needs.</h2><p>Send your material list directly to Lee Hardware on WhatsApp. Choose delivery or pickup and include your location so the team can confirm availability and final pricing.</p><div class="contact-card"><span>↗</span><div><b>WhatsApp ordering</b><small>Prepare your order and send it to our sales team.</small></div></div></div>
+    <form id="quoteForm" class="quote-form">
+      <div class="form-row"><label>Your name<input name="name" required placeholder="Full name"></label><label>Phone number<input name="phone" required placeholder="+1 (876) ..."></label></div>
+      <label>Email address <span class="optional">(optional)</span><input name="email" type="email" placeholder="you@example.com"></label>
+      <label>Items and quantities<textarea name="items" id="quoteItems" required rows="4" placeholder="Example: 30 bags cement, 2 cubic yards sand, 20 lengths of steel..."></textarea></label>
+      <div class="form-row"><label>Fulfilment method<select name="fulfilment" required><option value="Delivery">Delivery</option><option value="Customer pickup">Customer pickup</option></select></label><label>Delivery / pickup location <span class="optional">(optional)</span><input name="location" placeholder="Town / parish / job-site address"></label></div>
+      <button class="btn primary submit-btn" type="submit">Send order on WhatsApp <span>↗</span></button><p class="form-message" id="formMessage" role="status"></p><p class="whatsapp-note">WhatsApp ordering opens a message for you to review and send. Your order is not confirmed until Lee Hardware replies.</p>
+    </form>
+  </section>
+</main>
+<footer id="contact"><div class="footer-brand"><a class="brand" href="#"><span class="brand-mark">L</span><span>Lee <span class="brand-accent">Hardware</span><small>HARDWARE & BUILDING SUPPLIES</small></span></a><p>Sandy Bay Main, Hanover, Jamaica</p></div><div><b>Departments</b><a href="#categories">Tools</a><a href="#categories">Sand & stone</a><a href="#categories">Cement & steel</a><a href="#categories">Paint, blocks & lumber</a><a href="#categories">Plumbing supplies</a></div><div><b>Customer service</b><a href="#quote">Request a quote</a><a href="#delivery">Delivery enquiries</a><a href="#products">Product catalogue</a></div><div class="footer-note"><b>Build with confidence.</b><p>Sample prices and availability must be confirmed before ordering.</p></div><div class="copyright">© 2026 Lee Hardware. Demo storefront — prices and availability must be confirmed.</div></footer>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div><aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true"><div class="drawer-head"><div><div class="eyebrow">YOUR SELECTION</div><h2>Quote cart</h2></div><button class="close-btn" id="cartClose" aria-label="Close cart">×</button></div><div class="cart-items" id="cartItems"><p class="empty-cart">Your cart is empty. Add products to build your quote list.</p></div><div class="drawer-foot"><div class="cart-total"><span>Estimated subtotal</span><strong id="cartTotal">J$0</strong></div><small>Estimates only. Delivery, taxes, and final stock confirmation may change the total.</small><button class="btn primary submit-btn" id="checkoutBtn">Continue to WhatsApp order ↗</button></div></aside>
+<script>window.BUILDMART_PRODUCTS = {{ products|tojson }}; window.BUILDMART_WHATSAPP_NUMBER = {{ whatsapp_number|tojson }};</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body></html>

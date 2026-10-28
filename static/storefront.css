@@ -1,0 +1,19 @@
+.storefront-photo {
+  height: clamp(250px, 38vw, 390px);
+}
+
+.storefront-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+}
+
+.visual-plumbing {
+  background: #dce8e7;
+}
+
+.visual-plumbing .product-symbol {
+  color: #39747a;
+}
