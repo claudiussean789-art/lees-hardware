@@ -24,7 +24,7 @@ $('#quoteForm').addEventListener('submit', e=>{
     return;
   }
   const message=[
-    'Hello Lee Hardware, I would like to request an order/quote.',
+    "Hello Lee's Hardware, I would like to request an order/quote.",
     '',`Name: ${payload.name}`,`Phone: ${payload.phone}`,
     payload.email?`Email: ${payload.email}`:'',
     `Fulfilment: ${payload.fulfilment||'Delivery'}`,

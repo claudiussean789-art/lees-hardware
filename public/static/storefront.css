@@ -1,0 +1,97 @@
+.storefront-photo {
+  height: clamp(250px, 38vw, 390px);
+}
+
+.storefront-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+}
+
+.visual-plumbing {
+  background: #dce8e7;
+}
+
+.visual-plumbing .product-symbol {
+  color: #39747a;
+}
+
+.visual-doors {
+  background: #e7ddd0;
+}
+
+.visual-doors .product-symbol {
+  color: #8b5d3b;
+}
+
+.product-visual:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(0deg, #17231dc9, transparent 52%);
+}
+
+.product-visual:after {
+  display: none;
+}
+
+.product-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-tag {
+  z-index: 2;
+}
+
+.visual-caption {
+  z-index: 2;
+  top: 11px;
+  right: 11px;
+  bottom: auto;
+  color: #fff;
+  text-shadow: 0 1px 3px #0008;
+}
+
+.image-credit {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 3;
+  max-width: calc(100% - 16px);
+  overflow: hidden;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: #ffffffeb;
+  color: #34443a;
+  font-size: 8px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brand-logo {
+  display: block;
+  width: 90px;
+  height: 68px;
+  object-fit: contain;
+}
+
+.footer-brand .brand-logo {
+  width: 108px;
+  height: 80px;
+}
+
+@media (max-width: 680px) {
+  .brand-logo {
+    width: 72px;
+    height: 54px;
+  }
+}
